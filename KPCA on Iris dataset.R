@@ -1,0 +1,26 @@
+# Load required library
+library(kernlab)
+
+# Load the iris dataset
+data(iris)
+
+# Separate features and labels
+X <- iris[, -5]  # Features
+y <- iris[, 5]   # Labels
+
+# Perform Kernel PCA
+kpca_model <- kpca(~., data = X, kernel = "rbfdot", kpar = list(sigma = 0.1))
+
+# Get the transformed data
+X_transformed <- as.data.frame(predict(kpca_model, X))
+
+# Print the transformed data
+print(head(X_transformed))
+
+# Plot the transformed data
+plot(X_transformed[,1], X_transformed[,2], col = y, pch = 19, xlab = "Principal Component 1", ylab = "Principal Component 2")
+# Add legend
+legend("topright", legend = levels(iris$Species), col = 1:3, pch = 19, title = "Species")
+# Add title
+title("Kernel PCA on Iris Dataset")
+
